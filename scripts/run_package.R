@@ -6,6 +6,7 @@
 #   <out>/reconstructions/gmst_reconstruction_data.csv   (legacy column names,
 #       read by scripts/csv_to_netcdf.py and the viz)
 #   <out>/reconstructions/fit_post_summaries.csv
+#   <out>/reconstructions/posterior_draws.csv       (draws for the web viewer)
 #   <out>/reconstructions/reduced_proxy.csv
 #   <out>/figures/reconstruction_ts.png   plot(fit): the manuscript figure
 #   <out>/figures/trace_plots.png
@@ -105,6 +106,12 @@ utils::write.csv(legacy, file.path(out, "reconstructions", "gmst_reconstruction_
 post <- fit$fit$summary(variables = c("alpha0", "alpha1", "phi_R", "phi_T", "beta0",
                                       "betaG", "betaS", "betaV", "sigma_y", "sigma_z"))
 utils::write.csv(as.data.frame(post), file.path(out, "reconstructions", "fit_post_summaries.csv"), row.names = FALSE)
+
+# Parameter draws for the posterior-density panels of web/reconstruction.html.
+draw_vars <- c("alpha1", "betaG", "betaV", "betaS", "phi_R", "phi_T")
+draws <- as.data.frame(fit$fit$draws(variables = draw_vars, format = "df"))[, c(".chain", draw_vars)]
+draws[draw_vars] <- lapply(draws[draw_vars], signif, digits = 6)
+utils::write.csv(draws, file.path(out, "reconstructions", "posterior_draws.csv"), row.names = FALSE)
 
 ggplot2::ggsave(file.path(out, "figures", "reconstruction_ts.png"), plot(fit),
                 width = 10, height = 7, units = "in", dpi = 300, bg = "white")
