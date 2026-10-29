@@ -1,0 +1,27 @@
+presto_config:
+  co2_params.c0:
+    value: '280'
+  co2_params.co2_coef:
+    value: '5.35'
+  partition_years.t1:
+    value: '1'
+  partition_years.t2:
+    value: '1850'
+  partition_years.t3:
+    value: '2000'
+  ptype:
+    value: ALL
+  rp_method:
+    value: LASSO
+  seed:
+    value: '1'
+  stan_params.chains:
+    value: '4'
+  stan_params.iter_sampling:
+    value: '2000'
+  stan_params.iter_warmup:
+    value: '1000'
+  stan_params.parallel_chains:
+    value: '4'
+  vol_params.vol_coef:
+    value: '25.0'
